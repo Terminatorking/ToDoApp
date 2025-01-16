@@ -27,21 +27,35 @@ fun HomeScreen(paddingValues: PaddingValues) {
             .padding(paddingValues)
             .fillMaxSize()
     ) {
-        TodoBodyLarge(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp),
-            text = "کارهای پیش رو",
-            color = Black,
-            textAlign = TextAlign.Start
-        )
         LazyColumn(
             modifier = Modifier
-                .padding(top = 35.dp)
                 .fillMaxSize()
                 .padding(vertical = 32.dp, horizontal = 24.dp)
                 .align(Alignment.TopCenter)
         ) {
+            item {
+                TodoBodyLarge(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 18.dp),
+                    text = "کارهای پیش رو",
+                    color = Black,
+                    textAlign = TextAlign.Start
+                )
+            }
+            items(count = 4) {
+                ToDoItem(isDone = false)
+            }
+            item {
+                TodoBodyLarge(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 18.dp),
+                    text = "کارهای انجام شده",
+                    color = Black,
+                    textAlign = TextAlign.Start
+                )
+            }
             items(count = 4) {
                 ToDoItem(isDone = true)
             }
@@ -126,7 +140,7 @@ fun ToDoItem(isDone: Boolean) {
                 )
             }
         }
-        if (isDone){
+        if (isDone) {
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth(0.9f),
                 thickness = 1.5.dp,
