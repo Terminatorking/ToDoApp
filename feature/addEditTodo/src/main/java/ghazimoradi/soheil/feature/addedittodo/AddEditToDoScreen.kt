@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ghazimoradi.soheil.core.designSystem.components.TodoBodyMedium
 import ghazimoradi.soheil.core.designSystem.components.TodoBodySmall
 import ghazimoradi.soheil.core.designSystem.components.TodoTextFieldLabelMedium
@@ -35,9 +36,14 @@ import ghazimoradi.soheil.core.designSystem.theme.Cultured
 import ghazimoradi.soheil.core.designSystem.theme.Iceberg
 import ghazimoradi.soheil.core.designSystem.theme.Turquoise
 import ghazimoradi.soheil.core.designSystem.theme.White
+import ghazimoradi.soheil.core.model.Todo
+import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
 
 @Composable
-fun AddEditToDoScreen(paddingValues: PaddingValues) {
+fun AddEditToDoScreen(
+    paddingValues: PaddingValues,
+    viewModel: AddEditToDoScreenViewModel = hiltViewModel()
+) {
     var todoTitleValue = remember {
         mutableStateOf("")
     }
@@ -109,6 +115,19 @@ fun AddEditToDoScreen(paddingValues: PaddingValues) {
 
                 Box(
                     modifier = Modifier
+                        .clickable {
+                            viewModel.onEvent(
+                                AddEditToDoScreenEvents.AddToDo(
+                                    Todo(
+                                        title = todoTitleValue.value,
+                                        description = descriptorValue.value,
+                                        date = dateValue.value,
+                                        haveAlarm = checkValue,
+                                        modifyDate = System.currentTimeMillis().toString()
+                                    )
+                                )
+                            )
+                        }
                         .fillMaxWidth()
                         .padding(16.dp)
                         .background(

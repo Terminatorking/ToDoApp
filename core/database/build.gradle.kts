@@ -35,9 +35,9 @@ android {
 }
 
 dependencies {
-    implementation("com.google.dagger:hilt-android:2.52")
+    implementation(libs.hilt.android)
     implementation(project(":core:model"))
-    kapt("com.google.dagger:hilt-compiler:2.52")
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.compiler)
     kapt(libs.androidx.room.compiler)

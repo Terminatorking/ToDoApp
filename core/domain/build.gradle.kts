@@ -35,10 +35,10 @@ android {
 }
 
 dependencies {
-    implementation("com.google.dagger:hilt-android:2.52")
+    implementation(libs.hilt.android)
     implementation(project(":core:data"))
     implementation(project(":core:model"))
-    kapt("com.google.dagger:hilt-compiler:2.52")
+    kapt(libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
