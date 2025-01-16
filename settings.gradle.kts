@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Todo"
 include(":app")
+include(":core:data")
+include(":core:common")
+include(":core:database")
+include(":core:domain")
+include(":core:model")
+include(":core:ui")
