@@ -1,6 +1,7 @@
 package ghazimoradi.soheil.todo
 
 import android.os.Bundle
+import android.window.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ghazimoradi.soheil.feature.splash.SplashScreen
 import ghazimoradi.soheil.todo.ui.theme.TodoTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+                    SplashScreen()
+                    innerPadding
                 }
             }
         }
