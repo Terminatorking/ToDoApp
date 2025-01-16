@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import ghazimoradi.soheil.core.designSystem.theme.TodoTheme
-import ghazimoradi.soheil.feature.splash.SplashScreen
+import ghazimoradi.soheil.feature.home.HomeScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SplashScreen()
+                    HomeScreen()
                     Log.i("innerPadding", innerPadding.toString())
                 }
             }
