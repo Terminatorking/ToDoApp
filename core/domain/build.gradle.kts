@@ -36,6 +36,8 @@ android {
 
 dependencies {
     implementation("com.google.dagger:hilt-android:2.52")
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
     kapt("com.google.dagger:hilt-compiler:2.52")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
