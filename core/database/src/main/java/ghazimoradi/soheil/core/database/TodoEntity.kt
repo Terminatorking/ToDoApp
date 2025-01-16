@@ -6,14 +6,14 @@ import ghazimoradi.soheil.core.model.Todo
 
 @Entity(tableName = TodoEntity.TABLE_NAME)
 data class TodoEntity(
-    val title: String,
-    val description: String,
-    val date: String,
-    val modifyDate: String,
-    val haveAlarm: Boolean,
+    var title: String,
+    var description: String,
+    var date: String,
+    var modifyDate: String,
+    var haveAlarm: Boolean,
 ) {
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    var id: Int = 0
 
     companion object {
         const val TABLE_NAME = "TodoTable"

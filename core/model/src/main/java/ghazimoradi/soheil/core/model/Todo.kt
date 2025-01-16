@@ -1,10 +1,10 @@
 package ghazimoradi.soheil.core.model
 
 data class Todo(
-    val id: Int=0,
-    val title: String,
-    val description: String,
-    val date: String,
-    val modifyDate: String,
-    val haveAlarm: Boolean,
+    var id: Int=0,
+    var title: String,
+    var description: String,
+    var date: String,
+    var modifyDate: String,
+    var haveAlarm: Boolean,
 )
