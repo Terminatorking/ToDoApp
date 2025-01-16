@@ -30,7 +30,7 @@ fun SplashScreen() {
         TodoDisplayLarge(
             text = "ToDo",
             color = Color.White,
-            shadow = Shadow(Color.Black.copy(0.5f))
+            shadow = Shadow(BlackAlphaHalf)
         )
     }
 }

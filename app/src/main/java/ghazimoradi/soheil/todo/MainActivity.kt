@@ -18,8 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen()
-                    Log.i("innerPadding", innerPadding.toString())
+                    HomeScreen(innerPadding)
                 }
             }
         }
