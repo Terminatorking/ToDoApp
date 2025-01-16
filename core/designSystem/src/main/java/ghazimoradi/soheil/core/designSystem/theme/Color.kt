@@ -1,7 +1,6 @@
 package ghazimoradi.soheil.core.designSystem.theme
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.colorspace.WhitePoint
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -12,6 +11,7 @@ val White = Color.White
 val Black = Color.Black
 val BlackAlphaHalf = Color.Black.copy(alpha = 0.5f)
 val BlackAlpha7f = Color.Black.copy(alpha = 0.7f)
+val BlackAlpha4f = Color.Black.copy(alpha = 0.4f)
 val BlackAlpha2f = Color.Black.copy(alpha = 0.2f)
 
 val Purple40 = Color(0xFF6650a4)

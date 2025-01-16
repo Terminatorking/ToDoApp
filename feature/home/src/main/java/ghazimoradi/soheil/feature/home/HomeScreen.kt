@@ -6,11 +6,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ghazimoradi.soheil.core.designSystem.components.*
@@ -27,14 +27,16 @@ fun HomeScreen(paddingValues: PaddingValues) {
             .fillMaxSize()
     ) {
         TodoBodyLarge(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(15.dp),
             text = "کارهای پیش رو",
             color = Black,
             textAlign = TextAlign.Start
         )
         LazyColumn(
-            modifier = Modifier.padding(12.dp)
-                .fillMaxSize().padding(vertical = 32.dp, horizontal = 24.dp)
+            modifier = Modifier
+                .padding(top = 35.dp)
+                .fillMaxSize()
+                .padding(vertical = 32.dp, horizontal = 24.dp)
                 .align(Alignment.TopCenter)
         ) {
             items(count = 4) {
@@ -59,7 +61,7 @@ fun HomeScreen(paddingValues: PaddingValues) {
         ) {
             Icon(
                 tint = White,
-                modifier = Modifier.size(26.dp),
+                modifier = Modifier.size(18.dp),
                 imageVector = Add,
                 contentDescription = "Add Task"
             )
@@ -71,7 +73,8 @@ fun HomeScreen(paddingValues: PaddingValues) {
 fun ToDoItem() {
     Row(
         modifier = Modifier
-            .fillMaxWidth().padding(bottom = 12.dp)
+            .fillMaxWidth()
+            .padding(bottom = 20.dp)
             .background(White, shape = Shapes().large)
             .padding(vertical = 4.dp, horizontal = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -80,35 +83,34 @@ fun ToDoItem() {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 tint = BlackAlpha7f,
-                modifier = Modifier.size(26.dp),
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(22.dp),
                 imageVector = More,
                 contentDescription = "More",
             )
-            VerticalDivider(
-                modifier = Modifier.height(32.dp),
-                thickness = 2.dp,
-                color = BlackAlpha2f
-            )
             Column(horizontalAlignment = Alignment.Start) {
                 Icon(
-                    modifier = Modifier.size(26.dp),
+                    tint = BlackAlphaHalf,
+                    modifier = Modifier.size(18.dp),
                     imageVector = Clock,
                     contentDescription = "Alarm"
                 )
-                TodoLabelLarge(text = "2024/12/2 | 13:45", color = BlackAlphaHalf)
+                TodoLabelMedium(text = "2024/12/2 | 13:45", color = BlackAlphaHalf)
             }
         }
         Column(modifier = Modifier.fillMaxWidth(0.5f)) {
             TodoBodyMedium(
                 modifier = Modifier.fillMaxWidth(),
-                text = "title",
-                color = Black,
+                text = "متن",
+                color = BlackAlpha7f,
                 textAlign = TextAlign.Start
             )
             TodoBodySmall(
+                fontWeight = FontWeight.Light ,
                 modifier = Modifier.fillMaxWidth(),
-                text = "Description",
-                color = BlackAlphaHalf,
+                text = "توضیحات",
+                color = BlackAlpha4f,
                 textAlign = TextAlign.Start
             )
         }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
 
@@ -281,6 +282,7 @@ fun TodoBodyMedium(
 fun TodoBodySmall(
     modifier: Modifier = Modifier,
     text: String,
+    fontWeight: FontWeight = FontWeight.Normal,
     textDirection: TextDirection = TextDirection.Rtl,
     textAlign: TextAlign = TextAlign.End,
     color: Color
@@ -289,6 +291,7 @@ fun TodoBodySmall(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodySmall.copy(
+            fontWeight = fontWeight,
             textDirection = textDirection,
             color = color
         ),
