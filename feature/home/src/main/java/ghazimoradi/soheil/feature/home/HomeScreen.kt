@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
@@ -27,7 +28,9 @@ fun HomeScreen(paddingValues: PaddingValues) {
             .fillMaxSize()
     ) {
         TodoBodyLarge(
-            modifier = Modifier.fillMaxWidth().padding(15.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
             text = "کارهای پیش رو",
             color = Black,
             textAlign = TextAlign.Start
@@ -40,7 +43,7 @@ fun HomeScreen(paddingValues: PaddingValues) {
                 .align(Alignment.TopCenter)
         ) {
             items(count = 4) {
-                ToDoItem()
+                ToDoItem(isDone = true)
             }
         }
         Box(
@@ -70,48 +73,64 @@ fun HomeScreen(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun ToDoItem() {
-    Row(
+fun ToDoItem(isDone: Boolean) {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
-            .background(White, shape = Shapes().large)
-            .padding(vertical = 4.dp, horizontal = 6.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+            .padding(bottom = 20.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                tint = BlackAlpha7f,
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .size(22.dp),
-                imageVector = More,
-                contentDescription = "More",
-            )
-            Column(horizontalAlignment = Alignment.Start) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = if (isDone) WhiteAlphaHalf else White, shape = Shapes().large)
+                .padding(vertical = 4.dp, horizontal = 6.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    tint = BlackAlphaHalf,
-                    modifier = Modifier.size(18.dp),
-                    imageVector = Clock,
-                    contentDescription = "Alarm"
+                    tint = if (isDone) BlackAlpha4f else BlackAlpha7f,
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .size(22.dp),
+                    imageVector = More,
+                    contentDescription = "More",
                 )
-                TodoLabelMedium(text = "2024/12/2 | 13:45", color = BlackAlphaHalf)
+                Column(horizontalAlignment = Alignment.Start) {
+                    Icon(
+                        tint = if (isDone) BlackAlpha2f else BlackAlphaHalf,
+                        modifier = Modifier.size(18.dp),
+                        imageVector = Clock,
+                        contentDescription = "Alarm"
+                    )
+                    TodoLabelMedium(
+                        text = "2024/12/2 | 13:45",
+                        color = if (isDone) BlackAlpha2f else BlackAlphaHalf
+                    )
+                }
+            }
+            Column(modifier = Modifier.fillMaxWidth(0.5f)) {
+                TodoBodyMedium(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "متن",
+                    color = if (isDone) BlackAlpha4f else BlackAlpha7f,
+                    textAlign = TextAlign.Start
+                )
+                TodoBodySmall(
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "توضیحات",
+                    color = if (isDone) BlackAlpha2f else BlackAlpha4f,
+                    textAlign = TextAlign.Start
+                )
             }
         }
-        Column(modifier = Modifier.fillMaxWidth(0.5f)) {
-            TodoBodyMedium(
-                modifier = Modifier.fillMaxWidth(),
-                text = "متن",
-                color = BlackAlpha7f,
-                textAlign = TextAlign.Start
-            )
-            TodoBodySmall(
-                fontWeight = FontWeight.Light ,
-                modifier = Modifier.fillMaxWidth(),
-                text = "توضیحات",
-                color = BlackAlpha4f,
-                textAlign = TextAlign.Start
+        if (isDone){
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(0.9f),
+                thickness = 1.5.dp,
+                color = BlackAlpha2f
             )
         }
     }
