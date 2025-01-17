@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -92,12 +93,8 @@ fun AddEditToDoScreen(
             .background(color = Cultured)
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
-            when (uiState.value) {
-                is AddEditToDoScreenStates.Empty -> {
-
-                }
-
-                is AddEditToDoScreenStates.Edit -> {
+            LaunchedEffect(uiState.value) {
+                if (uiState.value is AddEditToDoScreenStates.Edit) {
                     todoTitleValue =
                         (uiState.value as AddEditToDoScreenStates.Edit).todo.title
                     descriptionValue =

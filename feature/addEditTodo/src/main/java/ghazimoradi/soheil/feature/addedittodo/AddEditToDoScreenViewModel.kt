@@ -51,7 +51,7 @@ class AddEditToDoScreenViewModel @Inject constructor(
             }
 
             is AddEditToDoScreenEvents.EditToDo -> {
-                updateTodo(event.todo)
+                updateTodo(event.todo.copy(id = todoId))
             }
         }
     }
