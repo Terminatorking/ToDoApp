@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:splash"))
     implementation(project(":core:designSystem"))
     implementation(project(":feature:home"))

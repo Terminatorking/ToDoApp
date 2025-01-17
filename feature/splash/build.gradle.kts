@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    composeOptions{
+    composeOptions {
         kotlinCompilerExtensionVersion = "2.0.0"
     }
     namespace = "ghazimoradi.soheil.feature.splash"
@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)

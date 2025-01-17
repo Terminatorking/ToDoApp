@@ -36,12 +36,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    composeOptions{
+    composeOptions {
         kotlinCompilerExtensionVersion = "2.0.0"
     }
 }
 
 dependencies {
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
