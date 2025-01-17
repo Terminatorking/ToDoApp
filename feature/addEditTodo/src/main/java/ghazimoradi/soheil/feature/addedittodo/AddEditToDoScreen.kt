@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ghazimoradi.soheil.common.formatTimestamp
 import ghazimoradi.soheil.core.designSystem.components.TodoBodyMedium
 import ghazimoradi.soheil.core.designSystem.components.TodoBodySmall
 import ghazimoradi.soheil.core.designSystem.components.TodoTextFieldLabelMedium
@@ -43,6 +44,8 @@ import ghazimoradi.soheil.core.designSystem.theme.White
 import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
+import ghazimoradi.soheil.ui.ReminderDateTimePicker
+import java.util.Calendar
 
 @Composable
 fun AddEditToDoScreen(
@@ -52,7 +55,12 @@ fun AddEditToDoScreen(
     navigateToHomeScreen: () -> Unit
 ) {
     var uiState = viewModel.uiState.collectAsState()
-
+    var showDateTimePicker by remember {
+        mutableStateOf(false)
+    }
+    var todoReminder by remember {
+        mutableStateOf<Calendar>(Calendar.getInstance())
+    }
     var todoTitleValue by remember {
         mutableStateOf(
             when (uiState.value) {
@@ -72,8 +80,11 @@ fun AddEditToDoScreen(
     var dateValue by remember {
         mutableStateOf(
             when (uiState.value) {
-                is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.date
-                is AddEditToDoScreenStates.Empty -> uiState.value.mTodoDate
+                is AddEditToDoScreenStates.Edit -> Calendar.getInstance().apply {
+                    timeInMillis = (uiState.value as AddEditToDoScreenStates.Edit).todo.date
+                }.formatTimestamp()
+
+                is AddEditToDoScreenStates.Empty -> Calendar.getInstance().formatTimestamp()
             }
         )
     }
@@ -99,7 +110,9 @@ fun AddEditToDoScreen(
                         (uiState.value as AddEditToDoScreenStates.Edit).todo.title
                     descriptionValue =
                         (uiState.value as AddEditToDoScreenStates.Edit).todo.description
-                    dateValue = (uiState.value as AddEditToDoScreenStates.Edit).todo.date
+                    dateValue = Calendar.getInstance().apply {
+                        timeInMillis = (uiState.value as AddEditToDoScreenStates.Edit).todo.date
+                    }.formatTimestamp()
                     checkValue = (uiState.value as AddEditToDoScreenStates.Edit).todo.haveAlarm
                 }
             }
@@ -142,9 +155,11 @@ fun AddEditToDoScreen(
                         },
                     )
                     TodoFiled(
+                        enable = false,
                         title = "تاریخ",
                         hint = "تاریخ انجام را انتخاب کنید",
                         value = dateValue,
+                        onclick = { showDateTimePicker = true },
                         onValueChange = { newValue ->
                             dateValue = newValue
                         },
@@ -165,7 +180,7 @@ fun AddEditToDoScreen(
                                             Todo(
                                                 title = todoTitleValue,
                                                 description = descriptionValue,
-                                                date = dateValue,
+                                                date = todoReminder.timeInMillis,
                                                 haveAlarm = checkValue,
                                                 modifyDate = System.currentTimeMillis()
                                                     .toString()
@@ -178,7 +193,7 @@ fun AddEditToDoScreen(
                                             Todo(
                                                 title = todoTitleValue,
                                                 description = descriptionValue,
-                                                date = dateValue,
+                                                date = todoReminder.timeInMillis,
                                                 haveAlarm = checkValue,
                                                 modifyDate = System.currentTimeMillis()
                                                     .toString()
@@ -216,13 +231,26 @@ fun AddEditToDoScreen(
             }
 
         }
+        if (showDateTimePicker) {
+            ReminderDateTimePicker(
+                modifier = Modifier.align(Alignment.Center),
+                onDateTimeSelected = { selectedDateTime ->
+                    dateValue = selectedDateTime.formatTimestamp()
+                    todoReminder = selectedDateTime
+                    showDateTimePicker = false
+                },
+            )
+        }
     }
 }
 
 @Composable
 fun TodoFiled(
+    onclick: (() -> Unit)? = null,
+    enable: Boolean = true,
     title: String,
-    value: String, hint: String,
+    value: String,
+    hint: String,
     onValueChange: (String) -> Unit,
 ) {
     Column(
@@ -241,12 +269,15 @@ fun TodoFiled(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable {}
+                .clickable {
+                    onclick?.invoke()
+                }
                 .background(Cultured, shape = CircleShape)
                 .border(width = 1.dp, color = BlackAlpha4f, shape = CircleShape)
                 .padding(horizontal = 14.dp, vertical = 4.dp)
         ) {
             TodoTextFieldLabelMedium(
+                enable = enable,
                 modifier = Modifier.fillMaxWidth(),
                 value = value,
                 hint = hint,

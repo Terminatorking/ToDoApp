@@ -1,5 +1,6 @@
 package ghazimoradi.soheil.feature.home
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +58,9 @@ import ghazimoradi.soheil.feature.home.events.HomeScreenEvents
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 import ghazimoradi.soheil.ui.Option
 import ghazimoradi.soheil.ui.OptionBottomSheet
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object TodoOptions {
     const val Edit = "ویرایش"
@@ -278,7 +282,10 @@ fun ToDoItem(todo: Todo, isDone: Boolean, onOptionMenuClick: (Todo) -> Unit) {
                         contentDescription = "Alarm"
                     )
                     TodoLabelMedium(
-                        text = todo.date, color = if (isDone) BlackAlpha2f else BlackAlphaHalf
+                        text = SimpleDateFormat(
+                            "HH:mm | yyyy/MM/dd",
+                            Locale.getDefault()
+                        ).format(Date(todo.date)), color = if (isDone) BlackAlpha2f else BlackAlphaHalf
                     )
                 }
             }

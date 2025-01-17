@@ -152,6 +152,7 @@ fun TodoTextFieldLabelLarge(
 
 @Composable
 fun TodoTextFieldLabelMedium(
+    enable: Boolean = true,
     modifier: Modifier,
     value: String,
     hint: String,
@@ -180,6 +181,7 @@ fun TodoTextFieldLabelMedium(
             }
             it()
         },
+        enabled = enable,
         onValueChange = onValueChange,
     )
 }
