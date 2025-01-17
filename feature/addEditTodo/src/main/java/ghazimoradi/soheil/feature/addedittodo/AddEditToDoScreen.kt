@@ -1,5 +1,7 @@
 package ghazimoradi.soheil.feature.addedittodo
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,6 +19,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,23 +41,27 @@ import ghazimoradi.soheil.core.designSystem.theme.Turquoise
 import ghazimoradi.soheil.core.designSystem.theme.White
 import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
+import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
 
 @Composable
 fun AddEditToDoScreen(
+    context: Context,
     paddingValues: PaddingValues,
     viewModel: AddEditToDoScreenViewModel = hiltViewModel()
 ) {
+    var uiState = viewModel.uiState.collectAsState()
+
     var todoTitleValue = remember {
-        mutableStateOf("")
+        mutableStateOf(uiState.value.mTodoTitle)
     }
     var descriptorValue = remember {
-        mutableStateOf("")
+        mutableStateOf(uiState.value.mTodoDescription)
     }
     var dateValue = remember {
-        mutableStateOf("")
+        mutableStateOf(uiState.value.mTodoDate)
     }
     var checkValue by remember {
-        mutableStateOf(false)
+        mutableStateOf(uiState.value.mTodoReminder)
     }
     Box(
         modifier = Modifier
@@ -64,87 +71,104 @@ fun AddEditToDoScreen(
             .background(color = Cultured)
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
-            TodoBodyMedium(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 22.dp),
-                text = "افزودن تسک جدید",
-                color = Black,
-                textAlign = TextAlign.Center
-            )
-            Column(
-                verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.9f)
-                    .background(
-                        color = White,
-                        shape = Shapes().large.copy(
-                            bottomEnd = CornerSize(0.dp),
-                            bottomStart = CornerSize(0.dp)
-                        )
-                    )
-            ) {
-                Column {
-                    TodoFiled(
-                        title = "عنوان",
-                        hint = "عنوان تسک را وارد نمایید",
-                        value = todoTitleValue.value,
-                        onValueChange = { newValue ->
-                            todoTitleValue.value = newValue
-                        },
-                    )
-                    TodoFiled(
-                        title = "توضیحات",
-                        hint = "توضیحات تسک را وارد نمایید",
-                        value = descriptorValue.value,
-                        onValueChange = { newValue ->
-                            descriptorValue.value = newValue
-                        },
-                    )
-                    TodoFiled(
-                        title = "تاریخ",
-                        hint = "تاریخ انجام را انتخاب کنید",
-                        value = dateValue.value,
-                        onValueChange = { newValue ->
-                            dateValue.value = newValue
-                        },
-                    )
-                    ToDoOption(checkValue, { checkValue = !checkValue })
-                }
-
-                Box(
-                    modifier = Modifier
-                        .clickable {
-                            viewModel.onEvent(
-                                AddEditToDoScreenEvents.AddToDo(
-                                    Todo(
-                                        title = todoTitleValue.value,
-                                        description = descriptorValue.value,
-                                        date = dateValue.value,
-                                        haveAlarm = checkValue,
-                                        modifyDate = System.currentTimeMillis().toString()
-                                    )
-                                )
-                            )
-                        }
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                listOf(Iceberg, Turquoise)
-                            ),
-                            shape = CircleShape
-                        )
-                ) {
+            when (uiState.value) {
+                is AddEditToDoScreenStates.Empty -> {
                     TodoBodyMedium(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp),
-                        text = "افزودن",
-                        color = White,
+                            .padding(vertical = 22.dp),
+                        text = "افزودن تسک جدید",
+                        color = Black,
                         textAlign = TextAlign.Center
                     )
+                    Column(
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.9f)
+                            .background(
+                                color = White,
+                                shape = Shapes().large.copy(
+                                    bottomEnd = CornerSize(0.dp),
+                                    bottomStart = CornerSize(0.dp)
+                                )
+                            )
+                    ) {
+                        Column {
+                            TodoFiled(
+                                title = "عنوان",
+                                hint = "عنوان تسک را وارد نمایید",
+                                value = todoTitleValue.value,
+                                onValueChange = { newValue ->
+                                    todoTitleValue.value = newValue
+                                },
+                            )
+                            TodoFiled(
+                                title = "توضیحات",
+                                hint = "توضیحات تسک را وارد نمایید",
+                                value = descriptorValue.value,
+                                onValueChange = { newValue ->
+                                    descriptorValue.value = newValue
+                                },
+                            )
+                            TodoFiled(
+                                title = "تاریخ",
+                                hint = "تاریخ انجام را انتخاب کنید",
+                                value = dateValue.value,
+                                onValueChange = { newValue ->
+                                    dateValue.value = newValue
+                                },
+                            )
+                            ToDoOption(checkValue, { checkValue = !checkValue })
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .clickable {
+                                    if (todoTitleValue.value.isNotEmpty()
+                                        && descriptorValue.value.isNotEmpty()
+                                        && dateValue.value.isNotEmpty()
+                                    ) {
+                                        viewModel.onEvent(
+                                            AddEditToDoScreenEvents.AddToDo(
+                                                Todo(
+                                                    title = todoTitleValue.value,
+                                                    description = descriptorValue.value,
+                                                    date = dateValue.value,
+                                                    haveAlarm = checkValue,
+                                                    modifyDate = System.currentTimeMillis()
+                                                        .toString()
+                                                )
+                                            )
+                                        )
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "لطفا همه مشخصات را وارد کنید!",
+                                            Toast.LENGTH_LONG,
+                                        ).show()
+                                    }
+
+                                }
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        listOf(Iceberg, Turquoise)
+                                    ),
+                                    shape = CircleShape
+                                )
+                        ) {
+                            TodoBodyMedium(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                text = "افزودن",
+                                color = White,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                 }
             }
         }

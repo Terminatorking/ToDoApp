@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AddEditToDoScreen(innerPadding)
+                    AddEditToDoScreen(paddingValues = innerPadding, context = this)
                 }
             }
         }
