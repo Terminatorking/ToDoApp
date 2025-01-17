@@ -29,7 +29,7 @@ android {
             )
         }
     }
-    composeOptions{
+    composeOptions {
         kotlinCompilerExtensionVersion = "2.0.0"
     }
     compileOptions {
@@ -42,7 +42,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(project(":core:model"))
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

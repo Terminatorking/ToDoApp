@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import ghazimoradi.soheil.core.designSystem.theme.TodoTheme
-import ghazimoradi.soheil.feature.addedittodo.AddEditToDoScreen
+import ghazimoradi.soheil.feature.home.HomeScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AddEditToDoScreen(paddingValues = innerPadding, context = this)
+                    HomeScreen(innerPadding)
                 }
             }
         }

@@ -3,25 +3,31 @@ package ghazimoradi.soheil.feature.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ghazimoradi.soheil.core.designSystem.components.*
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Add
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Clock
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.More
 import ghazimoradi.soheil.core.designSystem.theme.*
+import ghazimoradi.soheil.core.model.Todo
+import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 
 @Composable
-fun HomeScreen(paddingValues: PaddingValues) {
+fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeScreenViewModel = hiltViewModel()) {
+    val uiState = viewModel.uiState.collectAsState().value
     Box(
         modifier = Modifier
             .padding(paddingValues)
@@ -33,31 +39,36 @@ fun HomeScreen(paddingValues: PaddingValues) {
                 .padding(vertical = 32.dp, horizontal = 24.dp)
                 .align(Alignment.TopCenter)
         ) {
-            item {
-                TodoBodyLarge(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 18.dp),
-                    text = "کارهای پیش رو",
-                    color = Black,
-                    textAlign = TextAlign.Start
-                )
-            }
-            items(count = 4) {
-                ToDoItem(isDone = false)
-            }
-            item {
-                TodoBodyLarge(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 18.dp),
-                    text = "کارهای انجام شده",
-                    color = Black,
-                    textAlign = TextAlign.Start
-                )
-            }
-            items(count = 4) {
-                ToDoItem(isDone = true)
+            when (uiState) {
+                is HomeScreenStates.Loading -> {}
+                is HomeScreenStates.Success -> {
+                    item {
+                        TodoBodyLarge(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 18.dp),
+                            text = "کارهای پیش رو",
+                            color = Black,
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                    items(uiState.todoList, key = { it.id }) { todo ->
+                        ToDoItem(isDone = false, todo = todo)
+                    }
+                    item {
+                        TodoBodyLarge(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 18.dp),
+                            text = "کارهای انجام شده",
+                            color = Black,
+                            textAlign = TextAlign.Start
+                        )
+                    }
+                    items(uiState.doneTodoList, key = { it.id }) { todo ->
+                        ToDoItem(isDone = true, todo = todo)
+                    }
+                }
             }
         }
         Box(
@@ -87,7 +98,7 @@ fun HomeScreen(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun ToDoItem(isDone: Boolean) {
+fun ToDoItem(todo: Todo, isDone: Boolean) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,7 +130,7 @@ fun ToDoItem(isDone: Boolean) {
                         contentDescription = "Alarm"
                     )
                     TodoLabelMedium(
-                        text = "2024/12/2 | 13:45",
+                        text = todo.date,
                         color = if (isDone) BlackAlpha2f else BlackAlphaHalf
                     )
                 }
@@ -127,14 +138,14 @@ fun ToDoItem(isDone: Boolean) {
             Column(modifier = Modifier.fillMaxWidth(0.5f)) {
                 TodoBodyMedium(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "متن",
+                    text = todo.title,
                     color = if (isDone) BlackAlpha4f else BlackAlpha7f,
                     textAlign = TextAlign.Start
                 )
                 TodoBodySmall(
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.fillMaxWidth(),
-                    text = "توضیحات",
+                    text = todo.description,
                     color = if (isDone) BlackAlpha2f else BlackAlpha4f,
                     textAlign = TextAlign.Start
                 )
