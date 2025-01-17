@@ -8,7 +8,7 @@ class GetDoneTodosUseCase @Inject constructor(
     private val todoRepository: TodoRepository
 ) {
     suspend operator fun invoke(): List<Todo> {
-        return todoRepository.getAllTask().filter {
+        return todoRepository.getAllTodos().filter {
             it.isDone
         }
     }

@@ -4,10 +4,8 @@ import ghazimoradi.soheil.core.data.TodoRepository
 import ghazimoradi.soheil.core.model.Todo
 import javax.inject.Inject
 
-class AddNewTodoUseCase @Inject constructor(
-    private val TodoRepository: TodoRepository
-) {
+class DeleteTodoUseCase @Inject constructor(private val todoRepository: TodoRepository) {
     suspend operator fun invoke(todo: Todo) {
-        TodoRepository.insertTodo(todo)
+        todoRepository.deleteTodo(todoId = todo.id)
     }
 }

@@ -1,5 +1,6 @@
 package ghazimoradi.soheil.feature.home
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -55,9 +56,15 @@ import ghazimoradi.soheil.core.designSystem.theme.Turquoise
 import ghazimoradi.soheil.core.designSystem.theme.White
 import ghazimoradi.soheil.core.designSystem.theme.WhiteAlphaHalf
 import ghazimoradi.soheil.core.model.Todo
+import ghazimoradi.soheil.feature.home.events.HomeScreenEvents
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 import ghazimoradi.soheil.ui.Option
 import ghazimoradi.soheil.ui.OptionBottomSheet
+
+object TodoOptions {
+    const val Edit = "ویرایش"
+    const val Delete = "حذف"
+}
 
 @Composable
 fun HomeScreen(
@@ -70,35 +77,48 @@ fun HomeScreen(
 
     val options: List<Option> = remember {
         listOf(
-            Option(name = "ویرایش", icon = Edit),
-            Option(name = "حذف", icon = Delete),
+            Option(name = TodoOptions.Edit, icon = Edit),
+            Option(name = TodoOptions.Delete, icon = Delete),
         )
     }
     val uiState = viewModel.uiState.collectAsState().value
     var showOptionsBottomSheet by remember {
         mutableStateOf(false)
     }
-    val context = LocalContext.current
+    val selectedTodo = remember {
+        mutableStateOf<Todo?>(null)
+    }
+
     when (uiState) {
         is HomeScreenStates.Loading -> {}
         is HomeScreenStates.Success -> {
             if (uiState.todoList.isNotEmpty()) {
 
                 LaunchedEffect(lifecycleState) {
-                    if (lifecycleState == Lifecycle.State.STARTED || lifecycleState == Lifecycle.State.CREATED) {
-                        viewModel.updateTodoList()
+                    if (lifecycleState == Lifecycle.State.STARTED
+                        || lifecycleState == Lifecycle.State.CREATED
+                    ) {
+                        viewModel.onEvent(HomeScreenEvents.Update)
                     }
                 }
 
                 if (showOptionsBottomSheet) {
+
                     OptionBottomSheet(
                         options = options,
-                        onDismissRequest = { showOptionsBottomSheet = false },
+                        onDismissRequest = {
+                            selectedTodo.value = null
+                            showOptionsBottomSheet = false
+                        },
                         onOptionSelect = { option ->
                             val selectedOption = options.find { it.name == option.name }
-                            if (selectedOption != null) {
-                                Toast.makeText(context, selectedOption.name, Toast.LENGTH_SHORT)
-                                    .show()
+                            if (selectedOption?.name == TodoOptions.Edit) {
+                                showOptionsBottomSheet = false
+                            } else {
+                                selectedTodo.value?.let {
+                                    viewModel.onEvent(HomeScreenEvents.Delete(it))
+                                    showOptionsBottomSheet = false
+                                }
                             }
                         }
                     )
@@ -128,7 +148,11 @@ fun HomeScreen(
                             ToDoItem(
                                 isDone = false,
                                 todo = todo,
-                                onOptionMenuClick = { showOptionsBottomSheet = true })
+                                onOptionMenuClick = {
+                                    selectedTodo.value = it
+                                    showOptionsBottomSheet = true
+                                },
+                            )
                         }
                         if (uiState.doneTodoList.isNotEmpty()) {
                             item {
@@ -145,7 +169,11 @@ fun HomeScreen(
                                 ToDoItem(
                                     isDone = true,
                                     todo = todo,
-                                    onOptionMenuClick = { showOptionsBottomSheet = true })
+                                    onOptionMenuClick = {
+                                        selectedTodo.value = it
+                                        showOptionsBottomSheet = true
+                                    },
+                                )
                             }
                         }
                     }

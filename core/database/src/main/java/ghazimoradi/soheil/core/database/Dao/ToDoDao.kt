@@ -1,7 +1,6 @@
 package ghazimoradi.soheil.core.database.Dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import ghazimoradi.soheil.core.database.TodoEntity
@@ -9,11 +8,11 @@ import ghazimoradi.soheil.core.database.TodoEntity
 @Dao
 interface ToDoDao {
     @Insert
-    suspend fun insertTask(entity: TodoEntity)
+    suspend fun insertTodo(entity: TodoEntity)
 
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME}")
-    suspend fun getAllTasks(): List<TodoEntity>
+    suspend fun getAllTodos(): List<TodoEntity>
 
-    @Delete
-    suspend fun deleteTask(entity: TodoEntity)
+    @Query("delete from ${TodoEntity.TABLE_NAME} where id=:todoId")
+    suspend fun deleteTodo(todoId: Int)
 }
