@@ -1,11 +1,13 @@
 package ghazimoradi.soheil.feature.addedittodo
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.domain.AddNewTodoUseCase
 import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
+import ghazimoradi.soheil.feature.addedittodo.navigation.todoIdArg
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates.Empty
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditToDoScreenViewModel @Inject constructor(
-    private val addNewTodoUseCase: AddNewTodoUseCase
+    savedStateHandle: SavedStateHandle,
+    private val addNewTodoUseCase: AddNewTodoUseCase,
 ) : ViewModel() {
+
+    val todoId: Int = savedStateHandle[todoIdArg] ?: -1
 
     private val _uiState =
         MutableStateFlow<AddEditToDoScreenStates>(Empty())
