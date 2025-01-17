@@ -1,5 +1,6 @@
 package ghazimoradi.soheil.feature.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,21 +19,31 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import ghazimoradi.soheil.core.designSystem.components.TodoBodyLarge
 import ghazimoradi.soheil.core.designSystem.components.TodoBodyMedium
 import ghazimoradi.soheil.core.designSystem.components.TodoBodySmall
 import ghazimoradi.soheil.core.designSystem.components.TodoLabelMedium
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Add
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Clock
+import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Delete
+import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.Edit
 import ghazimoradi.soheil.core.designSystem.icons.TodoIcons.More
 import ghazimoradi.soheil.core.designSystem.theme.Black
 import ghazimoradi.soheil.core.designSystem.theme.BlackAlpha2f
@@ -45,6 +56,8 @@ import ghazimoradi.soheil.core.designSystem.theme.White
 import ghazimoradi.soheil.core.designSystem.theme.WhiteAlphaHalf
 import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
+import ghazimoradi.soheil.ui.Option
+import ghazimoradi.soheil.ui.OptionBottomSheet
 
 @Composable
 fun HomeScreen(
@@ -52,11 +65,44 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
     navigateToAddEditTodoScreen: () -> Unit
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val lifecycleState = lifecycleOwner.lifecycle.currentState
+
+    val options: List<Option> = remember {
+        listOf(
+            Option(name = "ویرایش", icon = Edit),
+            Option(name = "حذف", icon = Delete),
+        )
+    }
     val uiState = viewModel.uiState.collectAsState().value
+    var showOptionsBottomSheet by remember {
+        mutableStateOf(false)
+    }
+    val context = LocalContext.current
     when (uiState) {
-        HomeScreenStates.Loading -> {}
+        is HomeScreenStates.Loading -> {}
         is HomeScreenStates.Success -> {
             if (uiState.todoList.isNotEmpty()) {
+
+                LaunchedEffect(lifecycleState) {
+                    if (lifecycleState == Lifecycle.State.STARTED || lifecycleState == Lifecycle.State.CREATED) {
+                        viewModel.updateTodoList()
+                    }
+                }
+
+                if (showOptionsBottomSheet) {
+                    OptionBottomSheet(
+                        options = options,
+                        onDismissRequest = { showOptionsBottomSheet = false },
+                        onOptionSelect = { option ->
+                            val selectedOption = options.find { it.name == option.name }
+                            if (selectedOption != null) {
+                                Toast.makeText(context, selectedOption.name, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    )
+                }
                 Box(
                     modifier = Modifier
                         .padding(paddingValues)
@@ -79,9 +125,12 @@ fun HomeScreen(
                             )
                         }
                         items(uiState.todoList, key = { it.id }) { todo ->
-                            ToDoItem(isDone = false, todo = todo)
+                            ToDoItem(
+                                isDone = false,
+                                todo = todo,
+                                onOptionMenuClick = { showOptionsBottomSheet = true })
                         }
-                        if(uiState.doneTodoList.isNotEmpty()){
+                        if (uiState.doneTodoList.isNotEmpty()) {
                             item {
                                 TodoBodyLarge(
                                     modifier = Modifier
@@ -93,7 +142,10 @@ fun HomeScreen(
                                 )
                             }
                             items(uiState.doneTodoList, key = { it.id }) { todo ->
-                                ToDoItem(isDone = true, todo = todo)
+                                ToDoItem(
+                                    isDone = true,
+                                    todo = todo,
+                                    onOptionMenuClick = { showOptionsBottomSheet = true })
                             }
                         }
                     }
@@ -174,7 +226,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun ToDoItem(todo: Todo, isDone: Boolean) {
+fun ToDoItem(todo: Todo, isDone: Boolean, onOptionMenuClick: (Todo) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,6 +245,7 @@ fun ToDoItem(todo: Todo, isDone: Boolean) {
                 Icon(
                     tint = if (isDone) BlackAlpha4f else BlackAlpha7f,
                     modifier = Modifier
+                        .clickable { onOptionMenuClick.invoke(todo) }
                         .padding(end = 10.dp)
                         .size(22.dp),
                     imageVector = More,

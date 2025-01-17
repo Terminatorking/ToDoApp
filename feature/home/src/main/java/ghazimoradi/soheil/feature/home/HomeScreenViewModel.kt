@@ -21,6 +21,10 @@ class HomeScreenViewModel @Inject constructor(
     val uiState: StateFlow<HomeScreenStates> get() = _uiState
 
     init {
+        updateTodoList()
+    }
+
+    fun updateTodoList() {
         viewModelScope.launch {
             _uiState.update {
                 HomeScreenStates.Success(

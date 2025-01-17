@@ -1,6 +1,7 @@
 package ghazimoradi.soheil.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,9 +20,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import ghazimoradi.soheil.core.designSystem.components.TodoBodyMedium
+import ghazimoradi.soheil.core.designSystem.components.TodoLabelLarge
 import ghazimoradi.soheil.core.designSystem.theme.Black
-import ghazimoradi.soheil.core.designSystem.theme.BlackAlpha7f
+import ghazimoradi.soheil.core.designSystem.theme.BlackAlpha2f
+import ghazimoradi.soheil.core.designSystem.theme.BlackAlpha4f
 import ghazimoradi.soheil.core.designSystem.theme.Cultured
 import ghazimoradi.soheil.core.designSystem.theme.White
 
@@ -57,16 +59,17 @@ private fun OptionItem(option: Option, onOptionClick: () -> Unit) {
             .fillMaxWidth()
             .padding(12.dp)
             .background(White, shape = CircleShape)
+            .border(width = 2.dp, color = BlackAlpha2f, shape = CircleShape)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            modifier = Modifier.size(14.dp),
+            modifier = Modifier.size(24.dp),
             imageVector = option.icon,
             contentDescription = "",
-            tint = BlackAlpha7f
+            tint = BlackAlpha4f
         )
-        TodoBodyMedium(text = option.name, color = Black)
+        TodoLabelLarge(text = option.name, color = Black)
     }
 }
