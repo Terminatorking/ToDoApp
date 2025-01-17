@@ -7,12 +7,11 @@ import ghazimoradi.soheil.feature.splash.SplashScreen
 
 const val splashScreenRoute = "splashScreenRoute"
 
-fun NavGraphBuilder.splashScreen() {
-
+fun NavGraphBuilder.splashScreen(navigateToHomeScreen: () -> Unit) {
     composable(
         route = splashScreenRoute,
     ) {
-        SplashScreen()
+        SplashScreen(navigateToHomeScreen = navigateToHomeScreen)
     }
 }
 

@@ -7,15 +7,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import ghazimoradi.soheil.feature.addedittodo.AddEditToDoScreen
 
-
 const val addEditToDoScreenRoute = "addEditToDoScreenRoute"
 
-fun NavGraphBuilder.addEditToDoScreen(paddingValues: PaddingValues, context: Context) {
-
+fun NavGraphBuilder.addEditToDoScreen(
+    paddingValues: PaddingValues,
+    context: Context,
+    navigateToHomeScreen: () -> Unit
+) {
     composable(
         route = addEditToDoScreenRoute,
     ) {
-        AddEditToDoScreen(paddingValues = paddingValues, context = context)
+        AddEditToDoScreen(
+            paddingValues = paddingValues,
+            context = context,
+            navigateToHomeScreen = navigateToHomeScreen
+        )
     }
 }
 

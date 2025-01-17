@@ -47,7 +47,8 @@ import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
 fun AddEditToDoScreen(
     context: Context,
     paddingValues: PaddingValues,
-    viewModel: AddEditToDoScreenViewModel = hiltViewModel()
+    viewModel: AddEditToDoScreenViewModel = hiltViewModel(),
+    navigateToHomeScreen: () -> Unit
 ) {
     var uiState = viewModel.uiState.collectAsState()
 
@@ -141,6 +142,7 @@ fun AddEditToDoScreen(
                                                 )
                                             )
                                         )
+                                        navigateToHomeScreen.invoke()
                                     } else {
                                         Toast.makeText(
                                             context,
@@ -148,7 +150,6 @@ fun AddEditToDoScreen(
                                             Toast.LENGTH_LONG,
                                         ).show()
                                     }
-
                                 }
                                 .fillMaxWidth()
                                 .padding(16.dp)

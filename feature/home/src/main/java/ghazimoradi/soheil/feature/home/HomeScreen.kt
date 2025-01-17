@@ -1,6 +1,7 @@
 package ghazimoradi.soheil.feature.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,11 @@ import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 
 @Composable
-fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeScreenViewModel = hiltViewModel()) {
+fun HomeScreen(
+    paddingValues: PaddingValues,
+    viewModel: HomeScreenViewModel = hiltViewModel(),
+    navigateToAddEditTodoScreen: () -> Unit
+) {
     val uiState = viewModel.uiState.collectAsState().value
     when (uiState) {
         HomeScreenStates.Loading -> {}
@@ -76,22 +81,25 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeScreenViewModel = hi
                         items(uiState.todoList, key = { it.id }) { todo ->
                             ToDoItem(isDone = false, todo = todo)
                         }
-                        item {
-                            TodoBodyLarge(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 18.dp),
-                                text = "کارهای انجام شده",
-                                color = Black,
-                                textAlign = TextAlign.Start
-                            )
-                        }
-                        items(uiState.doneTodoList, key = { it.id }) { todo ->
-                            ToDoItem(isDone = true, todo = todo)
+                        if(uiState.doneTodoList.isNotEmpty()){
+                            item {
+                                TodoBodyLarge(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(bottom = 18.dp),
+                                    text = "کارهای انجام شده",
+                                    color = Black,
+                                    textAlign = TextAlign.Start
+                                )
+                            }
+                            items(uiState.doneTodoList, key = { it.id }) { todo ->
+                                ToDoItem(isDone = true, todo = todo)
+                            }
                         }
                     }
                     Box(
                         modifier = Modifier
+                            .clickable { navigateToAddEditTodoScreen.invoke() }
                             .padding(bottom = 56.dp, end = 32.dp)
                             .size(56.dp)
                             .background(
@@ -137,6 +145,7 @@ fun HomeScreen(paddingValues: PaddingValues, viewModel: HomeScreenViewModel = hi
                     }
                     Box(
                         modifier = Modifier
+                            .clickable { navigateToAddEditTodoScreen.invoke() }
                             .padding(bottom = 56.dp, end = 32.dp)
                             .size(56.dp)
                             .background(
