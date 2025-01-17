@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(libs.hilt.android)
+    implementation(project(":core:designSystem"))
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
