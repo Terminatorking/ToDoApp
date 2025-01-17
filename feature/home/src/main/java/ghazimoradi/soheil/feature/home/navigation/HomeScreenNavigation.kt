@@ -11,14 +11,16 @@ const val homeScreenRoute = "homeScreenRoute"
 
 fun NavGraphBuilder.homeScreen(
     paddingValues: PaddingValues,
-    navigateToAddEditTodoScreen: () -> Unit
+    navigateToAddTodoScreen: () -> Unit,
+    navigateToEditTodoScreen: (Int) -> Unit,
 ) {
     composable(
         route = homeScreenRoute,
     ) {
         HomeScreen(
             paddingValues = paddingValues,
-            navigateToAddEditTodoScreen = navigateToAddEditTodoScreen
+            navigateToAddTodoScreen = navigateToAddTodoScreen,
+            navigateToEditTodoScreen = navigateToEditTodoScreen
         )
     }
 }

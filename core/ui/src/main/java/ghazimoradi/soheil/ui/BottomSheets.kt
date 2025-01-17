@@ -38,8 +38,8 @@ fun OptionBottomSheet(
 ) {
     ModalBottomSheet(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = Cultured),
+            .fillMaxWidth(),
+        containerColor = Cultured,
         sheetState = rememberModalBottomSheetState(),
         onDismissRequest = onDismissRequest
     ) {

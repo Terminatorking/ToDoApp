@@ -67,7 +67,8 @@ object TodoOptions {
 fun HomeScreen(
     paddingValues: PaddingValues,
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    navigateToAddEditTodoScreen: () -> Unit
+    navigateToAddTodoScreen: () -> Unit,
+    navigateToEditTodoScreen: (Int) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState = lifecycleOwner.lifecycle.currentState
@@ -92,33 +93,30 @@ fun HomeScreen(
             if (uiState.todoList.isNotEmpty()) {
 
                 LaunchedEffect(lifecycleState) {
-                    if (lifecycleState == Lifecycle.State.STARTED
-                        || lifecycleState == Lifecycle.State.CREATED
-                    ) {
+                    if (lifecycleState == Lifecycle.State.STARTED || lifecycleState == Lifecycle.State.CREATED) {
                         viewModel.onEvent(HomeScreenEvents.Update)
                     }
                 }
 
                 if (showOptionsBottomSheet) {
 
-                    OptionBottomSheet(
-                        options = options,
-                        onDismissRequest = {
-                            selectedTodo.value = null
+                    OptionBottomSheet(options = options, onDismissRequest = {
+                        selectedTodo.value = null
+                        showOptionsBottomSheet = false
+                    }, onOptionSelect = { option ->
+                        val selectedOption = options.find { it.name == option.name }
+                        if (selectedOption?.name == TodoOptions.Edit) {
+                            selectedTodo.value?.let {
+                                navigateToEditTodoScreen.invoke(it.id)
+                            }
                             showOptionsBottomSheet = false
-                        },
-                        onOptionSelect = { option ->
-                            val selectedOption = options.find { it.name == option.name }
-                            if (selectedOption?.name == TodoOptions.Edit) {
+                        } else {
+                            selectedTodo.value?.let {
+                                viewModel.onEvent(HomeScreenEvents.Delete(it))
                                 showOptionsBottomSheet = false
-                            } else {
-                                selectedTodo.value?.let {
-                                    viewModel.onEvent(HomeScreenEvents.Delete(it))
-                                    showOptionsBottomSheet = false
-                                }
                             }
                         }
-                    )
+                    })
                 }
                 Box(
                     modifier = Modifier
@@ -176,12 +174,11 @@ fun HomeScreen(
                     }
                     Box(
                         modifier = Modifier
-                            .clickable { navigateToAddEditTodoScreen.invoke() }
+                            .clickable { navigateToAddTodoScreen.invoke() }
                             .padding(bottom = 56.dp, end = 32.dp)
                             .size(56.dp)
                             .background(
-                                shape = CircleShape,
-                                brush = Brush.verticalGradient(
+                                shape = CircleShape, brush = Brush.verticalGradient(
                                     listOf(
                                         Iceberg,
                                         Turquoise,
@@ -201,9 +198,7 @@ fun HomeScreen(
                 }
             } else {
                 Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
                 ) {
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.fillMaxWidth()) {
@@ -222,12 +217,11 @@ fun HomeScreen(
                     }
                     Box(
                         modifier = Modifier
-                            .clickable { navigateToAddEditTodoScreen.invoke() }
+                            .clickable { navigateToAddTodoScreen.invoke() }
                             .padding(bottom = 56.dp, end = 32.dp)
                             .size(56.dp)
                             .background(
-                                shape = CircleShape,
-                                brush = Brush.verticalGradient(
+                                shape = CircleShape, brush = Brush.verticalGradient(
                                     listOf(
                                         Iceberg,
                                         Turquoise,
@@ -284,8 +278,7 @@ fun ToDoItem(todo: Todo, isDone: Boolean, onOptionMenuClick: (Todo) -> Unit) {
                         contentDescription = "Alarm"
                     )
                     TodoLabelMedium(
-                        text = todo.date,
-                        color = if (isDone) BlackAlpha2f else BlackAlphaHalf
+                        text = todo.date, color = if (isDone) BlackAlpha2f else BlackAlphaHalf
                     )
                 }
             }
@@ -307,9 +300,7 @@ fun ToDoItem(todo: Todo, isDone: Boolean, onOptionMenuClick: (Todo) -> Unit) {
         }
         if (isDone) {
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(0.9f),
-                thickness = 1.5.dp,
-                color = BlackAlpha2f
+                modifier = Modifier.fillMaxWidth(0.9f), thickness = 1.5.dp, color = BlackAlpha2f
             )
         }
     }

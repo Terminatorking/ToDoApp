@@ -37,8 +37,11 @@ fun ToDoNavigation(
         )
         homeScreen(
             paddingValues = paddingValues,
-            navigateToAddEditTodoScreen = {
+            navigateToAddTodoScreen = {
                 navHostController.navigateToAddEditToDoScreen()
+            },
+            navigateToEditTodoScreen = {
+                navHostController.navigateToAddEditToDoScreen(it)
             },
         )
         addEditToDoScreen(

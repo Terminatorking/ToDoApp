@@ -33,11 +33,13 @@ class AddEditToDoScreenViewModel @Inject constructor(
     val uiState: StateFlow<AddEditToDoScreenStates> get() = _uiState
 
     init {
-        viewModelScope.launch {
-            _uiState.update {
-                AddEditToDoScreenStates.Edit(
-                    getTodoByIdUseCase.invoke(todoId)
-                )
+        if (todoId != -1) {
+            viewModelScope.launch {
+                _uiState.update {
+                    AddEditToDoScreenStates.Edit(
+                        getTodoByIdUseCase.invoke(todoId)
+                    )
+                }
             }
         }
     }
@@ -48,7 +50,9 @@ class AddEditToDoScreenViewModel @Inject constructor(
                 addNewTodo(event.todo)
             }
 
-            is AddEditToDoScreenEvents.EditToDo -> {}
+            is AddEditToDoScreenEvents.EditToDo -> {
+                updateTodo(event.todo)
+            }
         }
     }
 
@@ -58,6 +62,12 @@ class AddEditToDoScreenViewModel @Inject constructor(
         }
         _uiState.update {
             Empty()
+        }
+    }
+
+    fun updateTodo(todo: Todo) {
+        viewModelScope.launch {
+            updateTodoUseCase.invoke(todo)
         }
     }
 }

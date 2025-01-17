@@ -48,5 +48,5 @@ fun NavController.navigateToAddEditToDoScreen() {
 }
 
 fun NavController.navigateToAddEditToDoScreen(todoId: Int) {
-    navigate(route = "addEditTodoScreenRoute/{$todoId}")
+    navigate(route = "addEditTodoScreenRoute/$todoId")
 }
