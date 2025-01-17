@@ -11,6 +11,7 @@ data class TodoEntity(
     var date: String,
     var modifyDate: String,
     var haveAlarm: Boolean,
+    var isDone: Boolean,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -26,7 +27,8 @@ fun Todo.toTodoEntity(): TodoEntity {
         description = this.description,
         date = this.date,
         modifyDate = this.modifyDate,
-        haveAlarm = this.haveAlarm
+        haveAlarm = this.haveAlarm,
+        isDone = this.isDone
     )
 }
 
@@ -37,6 +39,7 @@ fun TodoEntity.toTodo(): Todo {
         description = this.description,
         date = this.date,
         modifyDate = this.modifyDate,
-        haveAlarm = this.haveAlarm
+        haveAlarm = this.haveAlarm,
+        isDone = this.isDone
     )
 }
