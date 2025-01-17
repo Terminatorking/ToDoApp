@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.domain
+package ghazimoradi.soheil.domain.usecases
 
 import ghazimoradi.soheil.core.data.TodoRepository
 import ghazimoradi.soheil.core.model.Todo

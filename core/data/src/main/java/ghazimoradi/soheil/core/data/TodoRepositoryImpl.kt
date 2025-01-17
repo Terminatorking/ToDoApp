@@ -7,6 +7,14 @@ import ghazimoradi.soheil.core.model.Todo
 import javax.inject.Inject
 
 class TodoRepositoryImpl @Inject constructor(private val dao: ToDoDao) : TodoRepository {
+    override suspend fun getTodoByID(todoId: Int): Todo {
+       return dao.getTodoByID(todoId = todoId).toTodo()
+    }
+
+    override suspend fun updateTodo(todo: Todo) {
+        dao.updateTodo(entity = todo.toTodoEntity())
+    }
+
     override suspend fun insertTodo(todo: Todo) {
         dao.insertTodo(entity = todo.toTodoEntity())
     }

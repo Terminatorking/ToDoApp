@@ -6,6 +6,8 @@ import ghazimoradi.soheil.core.model.Todo
 
 @Entity(tableName = TodoEntity.TABLE_NAME)
 data class TodoEntity(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     var title: String,
     var description: String,
     var date: String,
@@ -13,9 +15,6 @@ data class TodoEntity(
     var haveAlarm: Boolean,
     var isDone: Boolean,
 ) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-
     companion object {
         const val TABLE_NAME = "TodoTable"
     }
@@ -23,6 +22,7 @@ data class TodoEntity(
 
 fun Todo.toTodoEntity(): TodoEntity {
     return TodoEntity(
+        id = this.id,
         title = this.title,
         description = this.description,
         date = this.date,

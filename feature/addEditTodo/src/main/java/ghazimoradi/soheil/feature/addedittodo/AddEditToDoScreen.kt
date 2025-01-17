@@ -53,16 +53,36 @@ fun AddEditToDoScreen(
     var uiState = viewModel.uiState.collectAsState()
 
     var todoTitleValue = remember {
-        mutableStateOf(uiState.value.mTodoTitle)
+        mutableStateOf(
+            when (uiState.value) {
+                is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.title
+                is AddEditToDoScreenStates.Empty -> uiState.value.mTodoTitle
+            }
+        )
     }
     var descriptorValue = remember {
-        mutableStateOf(uiState.value.mTodoDescription)
+        mutableStateOf(
+            when (uiState.value) {
+                is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.description
+                is AddEditToDoScreenStates.Empty -> uiState.value.mTodoDescription
+            }
+        )
     }
     var dateValue = remember {
-        mutableStateOf(uiState.value.mTodoDate)
+        mutableStateOf(
+            when (uiState.value) {
+                is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.date
+                is AddEditToDoScreenStates.Empty -> uiState.value.mTodoDate
+            }
+        )
     }
     var checkValue by remember {
-        mutableStateOf(uiState.value.mTodoReminder)
+        mutableStateOf(
+            when (uiState.value) {
+                is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.haveAlarm
+                is AddEditToDoScreenStates.Empty -> uiState.value.mTodoReminder
+            }
+        )
     }
     Box(
         modifier = Modifier
@@ -170,6 +190,8 @@ fun AddEditToDoScreen(
                             )
                         }
                     }
+                }
+                is AddEditToDoScreenStates.Edit -> {
                 }
             }
         }

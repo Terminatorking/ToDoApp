@@ -3,9 +3,9 @@ package ghazimoradi.soheil.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ghazimoradi.soheil.domain.DeleteTodoUseCase
-import ghazimoradi.soheil.domain.GetDoneTodosUseCase
-import ghazimoradi.soheil.domain.GetTodosUseCase
+import ghazimoradi.soheil.domain.usecases.DeleteTodoUseCase
+import ghazimoradi.soheil.domain.usecases.GetDoneTodosUseCase
+import ghazimoradi.soheil.domain.usecases.GetTodosUseCase
 import ghazimoradi.soheil.feature.home.events.HomeScreenEvents
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 import kotlinx.coroutines.flow.MutableStateFlow

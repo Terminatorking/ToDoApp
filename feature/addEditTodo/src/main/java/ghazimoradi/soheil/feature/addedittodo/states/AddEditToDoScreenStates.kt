@@ -1,10 +1,12 @@
 package ghazimoradi.soheil.feature.addedittodo.states
 
-sealed class AddEditToDoScreenStates (
-    val mTodoTitle: String,
-    val mTodoDescription: String,
-    val mTodoDate: String,
-    val mTodoReminder: Boolean
+import ghazimoradi.soheil.core.model.Todo
+
+sealed class AddEditToDoScreenStates(
+    val mTodoTitle: String = "",
+    val mTodoDescription: String = "",
+    val mTodoDate: String = "",
+    val mTodoReminder: Boolean = false
 ) {
     data class Empty(
         val todoTitle: String = "",
@@ -17,4 +19,6 @@ sealed class AddEditToDoScreenStates (
         mTodoDate = todoDate,
         mTodoReminder = todoReminder
     )
+
+    data class Edit(val todo: Todo) : AddEditToDoScreenStates()
 }
