@@ -9,7 +9,7 @@ import ghazimoradi.soheil.core.database.TodoEntity
 @Dao
 interface ToDoDao {
     @Insert
-    suspend fun insertTodo(entity: TodoEntity)
+    suspend fun insertTodo(entity: TodoEntity): Long
 
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME}")
     suspend fun getAllTodos(): List<TodoEntity>

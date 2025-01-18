@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(project(":core:data"))
     implementation(project(":core:model"))
+    implementation(project(":core:receivers"))
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

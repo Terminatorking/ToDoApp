@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(project(":feature:splash"))
+    implementation(project(":core:receivers"))
     implementation(project(":core:designSystem"))
     implementation(project(":feature:home"))
     implementation(project(":feature:addEditTodo"))

@@ -23,10 +23,10 @@ class AddEditToDoScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val addNewTodoUseCase: AddNewTodoUseCase,
     private val updateTodoUseCase: UpdateTodoUseCase,
-    private val getTodoByIdUseCase: GetTodoByIdUseCase
+    private val getTodoByIdUseCase: GetTodoByIdUseCase,
 ) : ViewModel() {
 
-    val todoId: Int = savedStateHandle[todoIdArg] ?: -1
+    private val todoId: Int = savedStateHandle[todoIdArg] ?: -1
 
     private val _uiState =
         MutableStateFlow<AddEditToDoScreenStates>(Empty())
@@ -56,7 +56,7 @@ class AddEditToDoScreenViewModel @Inject constructor(
         }
     }
 
-    fun addNewTodo(todo: Todo) {
+    private fun addNewTodo(todo: Todo) {
         viewModelScope.launch {
             addNewTodoUseCase.invoke(todo)
         }
@@ -65,7 +65,7 @@ class AddEditToDoScreenViewModel @Inject constructor(
         }
     }
 
-    fun updateTodo(todo: Todo) {
+    private fun updateTodo(todo: Todo) {
         viewModelScope.launch {
             updateTodoUseCase.invoke(todo)
         }

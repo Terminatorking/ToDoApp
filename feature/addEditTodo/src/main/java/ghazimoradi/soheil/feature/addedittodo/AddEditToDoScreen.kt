@@ -88,7 +88,7 @@ fun AddEditToDoScreen(
             }
         )
     }
-    var checkValue by remember {
+    var reminderValue by remember {
         mutableStateOf(
             when (uiState.value) {
                 is AddEditToDoScreenStates.Edit -> (uiState.value as AddEditToDoScreenStates.Edit).todo.haveAlarm
@@ -113,7 +113,7 @@ fun AddEditToDoScreen(
                     dateValue = Calendar.getInstance().apply {
                         timeInMillis = (uiState.value as AddEditToDoScreenStates.Edit).todo.date
                     }.formatTimestamp()
-                    checkValue = (uiState.value as AddEditToDoScreenStates.Edit).todo.haveAlarm
+                    reminderValue = (uiState.value as AddEditToDoScreenStates.Edit).todo.haveAlarm
                 }
             }
             TodoBodyMedium(
@@ -164,7 +164,7 @@ fun AddEditToDoScreen(
                             dateValue = newValue
                         },
                     )
-                    ToDoOption(checkValue, { checkValue = !checkValue })
+                    ToDoOption(reminderValue, { reminderValue = !reminderValue })
                 }
 
                 Box(
@@ -181,7 +181,7 @@ fun AddEditToDoScreen(
                                                 title = todoTitleValue,
                                                 description = descriptionValue,
                                                 date = todoReminder.timeInMillis,
-                                                haveAlarm = checkValue,
+                                                haveAlarm = reminderValue,
                                                 modifyDate = System.currentTimeMillis()
                                                     .toString()
                                             )
@@ -194,7 +194,7 @@ fun AddEditToDoScreen(
                                                 title = todoTitleValue,
                                                 description = descriptionValue,
                                                 date = todoReminder.timeInMillis,
-                                                haveAlarm = checkValue,
+                                                haveAlarm = reminderValue,
                                                 modifyDate = System.currentTimeMillis()
                                                     .toString()
                                             )
