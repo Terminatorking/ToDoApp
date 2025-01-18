@@ -6,12 +6,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ghazimoradi.soheil.domain.usecases.DeleteTodoUseCase
 import ghazimoradi.soheil.domain.usecases.GetDoneTodosUseCase
 import ghazimoradi.soheil.domain.usecases.GetTodosUseCase
+import ghazimoradi.soheil.domain.usecases.UpdateTodoUseCase
 import ghazimoradi.soheil.feature.home.events.HomeScreenEvents
 import ghazimoradi.soheil.feature.home.states.HomeScreenStates
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +21,7 @@ class HomeScreenViewModel @Inject constructor(
     private val getDoneTodosUseCase: GetDoneTodosUseCase,
     private val deleteTodoUseCase: DeleteTodoUseCase,
     private val getTodosUseCase: GetTodosUseCase,
+    private val updateTodoUseCase: UpdateTodoUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<HomeScreenStates>(HomeScreenStates.Loading)
     val uiState: StateFlow<HomeScreenStates> get() = _uiState
@@ -33,6 +36,13 @@ class HomeScreenViewModel @Inject constructor(
             is HomeScreenEvents.Delete -> {
                 viewModelScope.launch {
                     deleteTodoUseCase.invoke(event.todo)
+                    updateTodoList()
+                }
+            }
+
+            is HomeScreenEvents.Done -> {
+                viewModelScope.launch {
+                    updateTodoUseCase.invoke(event.todo)
                     updateTodoList()
                 }
             }

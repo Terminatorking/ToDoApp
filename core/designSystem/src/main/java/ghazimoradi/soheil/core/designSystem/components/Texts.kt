@@ -1,5 +1,6 @@
 package ghazimoradi.soheil.core.designSystem.components
 
+import android.annotation.SuppressLint
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,8 +11,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
 
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoDisplayLarge(
+    singleLine: Int = Int.MAX_VALUE,
     shadow: Shadow = Shadow(),
     modifier: Modifier = Modifier,
     text: String,
@@ -20,6 +23,7 @@ fun TodoDisplayLarge(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.displayLarge.copy(
@@ -30,9 +34,10 @@ fun TodoDisplayLarge(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoDisplayMedium(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -40,6 +45,7 @@ fun TodoDisplayMedium(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.displayMedium.copy(
@@ -49,9 +55,10 @@ fun TodoDisplayMedium(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoDisplaySmall(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -59,6 +66,7 @@ fun TodoDisplaySmall(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.displaySmall.copy(
@@ -68,9 +76,10 @@ fun TodoDisplaySmall(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoLabelLarge(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -78,6 +87,7 @@ fun TodoLabelLarge(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.labelLarge.copy(
@@ -87,9 +97,10 @@ fun TodoLabelLarge(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoLabelMedium(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -97,6 +108,7 @@ fun TodoLabelMedium(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.labelMedium.copy(
@@ -106,9 +118,10 @@ fun TodoLabelMedium(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoLabelSmall(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -116,6 +129,7 @@ fun TodoLabelSmall(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.labelSmall.copy(
@@ -125,9 +139,10 @@ fun TodoLabelSmall(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoHeadlineLarge(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -135,6 +150,7 @@ fun TodoHeadlineLarge(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.headlineLarge.copy(
@@ -144,9 +160,10 @@ fun TodoHeadlineLarge(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoHeadlineMedium(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -154,6 +171,7 @@ fun TodoHeadlineMedium(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.headlineMedium.copy(
@@ -163,9 +181,10 @@ fun TodoHeadlineMedium(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoHeadlineSmall(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -173,6 +192,7 @@ fun TodoHeadlineSmall(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.headlineSmall.copy(
@@ -182,9 +202,10 @@ fun TodoHeadlineSmall(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoTitleLarge(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -192,6 +213,7 @@ fun TodoTitleLarge(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.titleLarge.copy(
@@ -201,9 +223,10 @@ fun TodoTitleLarge(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoTitleMedium(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -211,6 +234,7 @@ fun TodoTitleMedium(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.titleMedium.copy(
@@ -220,9 +244,10 @@ fun TodoTitleMedium(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoTitleSmall(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -230,6 +255,7 @@ fun TodoTitleSmall(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.titleSmall.copy(
@@ -239,9 +265,10 @@ fun TodoTitleSmall(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoBodyLarge(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -249,6 +276,7 @@ fun TodoBodyLarge(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyLarge.copy(
@@ -258,9 +286,10 @@ fun TodoBodyLarge(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoBodyMedium(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     textDirection: TextDirection = TextDirection.Rtl,
@@ -268,6 +297,7 @@ fun TodoBodyMedium(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyMedium.copy(
@@ -277,9 +307,10 @@ fun TodoBodyMedium(
         textAlign = textAlign,
     )
 }
-
+@SuppressLint("ModifierParameter")
 @Composable
 fun TodoBodySmall(
+    singleLine: Int = Int.MAX_VALUE,
     modifier: Modifier = Modifier,
     text: String,
     fontWeight: FontWeight = FontWeight.Normal,
@@ -288,6 +319,7 @@ fun TodoBodySmall(
     color: Color
 ) {
     Text(
+        maxLines = singleLine,
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodySmall.copy(

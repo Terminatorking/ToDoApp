@@ -11,6 +11,8 @@ class AddNewTodoUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(todo: Todo) {
         val todoId = TodoRepository.insertTodo(todo)
-        reminderManager.setReminder(todo.date, todoId.toInt())
+        if(todo.haveAlarm){
+            reminderManager.setReminder(todo.date, todoId.toInt())
+        }
     }
 }
