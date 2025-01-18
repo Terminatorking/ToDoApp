@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.feature.addedittodo.Events
+package ghazimoradi.soheil.feature.addedittodo.events
 
 import ghazimoradi.soheil.core.model.Todo
 

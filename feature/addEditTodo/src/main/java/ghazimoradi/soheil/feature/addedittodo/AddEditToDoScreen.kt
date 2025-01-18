@@ -3,13 +3,11 @@ package ghazimoradi.soheil.feature.addedittodo
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material3.Shapes
-import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,17 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ghazimoradi.soheil.common.formatTimestamp
 import ghazimoradi.soheil.core.designSystem.components.TodoBodyMedium
-import ghazimoradi.soheil.core.designSystem.components.TodoBodySmall
-import ghazimoradi.soheil.core.designSystem.components.TodoTextFieldLabelMedium
 import ghazimoradi.soheil.core.designSystem.theme.Black
-import ghazimoradi.soheil.core.designSystem.theme.BlackAlpha4f
 import ghazimoradi.soheil.core.designSystem.theme.Cultured
 import ghazimoradi.soheil.core.designSystem.theme.Iceberg
 import ghazimoradi.soheil.core.designSystem.theme.Turquoise
 import ghazimoradi.soheil.core.designSystem.theme.White
 import ghazimoradi.soheil.core.model.Todo
-import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
+import ghazimoradi.soheil.feature.addedittodo.events.AddEditToDoScreenEvents
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
+import ghazimoradi.soheil.feature.addedittodo.views.ToDoOption
+import ghazimoradi.soheil.feature.addedittodo.views.TodoFiled
 import ghazimoradi.soheil.ui.ReminderDateTimePicker
 import java.util.Calendar
 
@@ -54,7 +50,7 @@ fun AddEditToDoScreen(
     viewModel: AddEditToDoScreenViewModel = hiltViewModel(),
     navigateToHomeScreen: () -> Unit
 ) {
-    var uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsState()
     var showDateTimePicker by remember {
         mutableStateOf(false)
     }
@@ -164,7 +160,7 @@ fun AddEditToDoScreen(
                             dateValue = newValue
                         },
                     )
-                    ToDoOption(reminderValue, { reminderValue = !reminderValue })
+                    ToDoOption(reminderValue) { reminderValue = !reminderValue }
                 }
 
                 Box(
@@ -241,64 +237,5 @@ fun AddEditToDoScreen(
                 },
             )
         }
-    }
-}
-
-@Composable
-fun TodoFiled(
-    onclick: (() -> Unit)? = null,
-    enable: Boolean = true,
-    title: String,
-    value: String,
-    hint: String,
-    onValueChange: (String) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
-    ) {
-        TodoBodySmall(
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            text = title,
-            color = Black
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    onclick?.invoke()
-                }
-                .background(Cultured, shape = CircleShape)
-                .border(width = 1.dp, color = BlackAlpha4f, shape = CircleShape)
-                .padding(horizontal = 14.dp, vertical = 4.dp)
-        ) {
-            TodoTextFieldLabelMedium(
-                enable = enable,
-                modifier = Modifier.fillMaxWidth(),
-                value = value,
-                hint = hint,
-                hintColor = BlackAlpha4f,
-                color = Black,
-                onValueChange = onValueChange
-            )
-        }
-    }
-}
-
-@Composable
-fun ToDoOption(isChecked: Boolean, onValueChange: (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Switch(checked = isChecked, onCheckedChange = onValueChange)
-        TodoBodyMedium(text = "یاداور", color = Black)
     }
 }

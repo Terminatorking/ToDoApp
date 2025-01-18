@@ -8,7 +8,7 @@ import ghazimoradi.soheil.core.model.Todo
 import ghazimoradi.soheil.domain.usecases.AddNewTodoUseCase
 import ghazimoradi.soheil.domain.usecases.GetTodoByIdUseCase
 import ghazimoradi.soheil.domain.usecases.UpdateTodoUseCase
-import ghazimoradi.soheil.feature.addedittodo.Events.AddEditToDoScreenEvents
+import ghazimoradi.soheil.feature.addedittodo.events.AddEditToDoScreenEvents
 import ghazimoradi.soheil.feature.addedittodo.navigation.todoIdArg
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates
 import ghazimoradi.soheil.feature.addedittodo.states.AddEditToDoScreenStates.Empty

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -49,7 +48,7 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    fun updateTodoList() {
+    private fun updateTodoList() {
         viewModelScope.launch {
             _uiState.update {
                 HomeScreenStates.Success(

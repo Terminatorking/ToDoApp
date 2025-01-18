@@ -20,12 +20,12 @@ fun ToDoNavigation(
     context: Context,
     modifier: Modifier,
     navHostController: NavHostController,
-    startDestination: TopLevelDestinations = TopLevelDestinations.SPLASHSCREEN,
+    startDestination: String = splashScreenRoute,
 ) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = startDestination.route,
+        startDestination = startDestination,
     ) {
         splashScreen(
             navigateToHomeScreen = {

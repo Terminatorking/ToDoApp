@@ -1,6 +1,5 @@
 package ghazimoradi.soheil.feature.splash.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import ghazimoradi.soheil.feature.splash.SplashScreen
@@ -13,8 +12,4 @@ fun NavGraphBuilder.splashScreen(navigateToHomeScreen: () -> Unit) {
     ) {
         SplashScreen(navigateToHomeScreen = navigateToHomeScreen)
     }
-}
-
-fun NavController.navigateToSplashScreen() {
-    navigate(route = splashScreenRoute)
 }

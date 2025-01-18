@@ -22,8 +22,8 @@ import ghazimoradi.soheil.ui.Option
 import ghazimoradi.soheil.ui.OptionBottomSheet
 
 object TodoOptions {
-    const val Edit = "ویرایش"
-    const val Delete = "حذف"
+    const val EDIT = "ویرایش"
+    const val DELETE = "حذف"
 }
 
 @Composable
@@ -39,15 +39,15 @@ fun HomeScreen(
 
     val options: List<Option> = remember {
         listOf(
-            Option(name = TodoOptions.Edit, icon = Edit),
-            Option(name = TodoOptions.Delete, icon = Delete),
+            Option(name = TodoOptions.EDIT, icon = Edit),
+            Option(name = TodoOptions.DELETE, icon = Delete),
         )
     }
     val uiState = viewModel.uiState.collectAsState().value
     var showOptionsBottomSheet by remember {
         mutableStateOf(false)
     }
-    var selectedTodo = remember {
+    val selectedTodo = remember {
         mutableStateOf<Todo?>(null)
     }
 
@@ -71,7 +71,7 @@ fun HomeScreen(
                         },
                         onOptionSelect = { option ->
                             val selectedOption = options.find { it.name == option.name }
-                            if (selectedOption?.name == TodoOptions.Edit) {
+                            if (selectedOption?.name == TodoOptions.EDIT) {
                                 selectedTodo.value?.let {
                                     navigateToEditTodoScreen.invoke(it.id)
                                 }

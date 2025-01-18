@@ -1,6 +1,6 @@
 package ghazimoradi.soheil.core.data
 
-import ghazimoradi.soheil.core.database.Dao.ToDoDao
+import ghazimoradi.soheil.core.database.dao.ToDoDao
 import ghazimoradi.soheil.core.database.toTodo
 import ghazimoradi.soheil.core.database.toTodoEntity
 import ghazimoradi.soheil.core.model.Todo

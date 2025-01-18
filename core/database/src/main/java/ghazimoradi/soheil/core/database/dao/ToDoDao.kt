@@ -1,4 +1,4 @@
-package ghazimoradi.soheil.core.database.Dao
+package ghazimoradi.soheil.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
